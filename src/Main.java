@@ -7,12 +7,15 @@ public class Main {
         JFrame frame = new JFrame("Hospital Appointment System");
 
         // Set size of the window
-        frame.setSize(500, 400);
+        frame.setSize(600, 500);
 
         // Close application when window is closed
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Make window visible
         frame.setVisible(true);
+
+        // Open Login Page
+        new LoginPage();
     }
 }
