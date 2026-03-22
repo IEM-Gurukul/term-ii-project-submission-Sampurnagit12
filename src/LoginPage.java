@@ -34,7 +34,13 @@ public class LoginPage {
         frame.add(loginButton);
         frame.add(registerButton);
 
+        registerButton.addActionListener(e -> {
+    frame.dispose(); // close login
+    new RegisterPage();
+     });
+
         // Make visible
         frame.setVisible(true);
+
     }
 }
