@@ -41,7 +41,8 @@ public class RegisterPage {
             String password = new String(passwordField.getPassword());
 
             // Create Patient Object
-            Patient patient = new Patient(name, username, password);
+            String id = "P" + System.currentTimeMillis(); // simple unique ID
+            Patient patient = new Patient(name, id, username, password);
 
             JOptionPane.showMessageDialog(frame, "Registration Successful!");
 
