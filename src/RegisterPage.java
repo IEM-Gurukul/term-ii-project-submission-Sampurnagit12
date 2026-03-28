@@ -43,10 +43,14 @@ public class RegisterPage {
             // Create Patient Object
             String id = "P" + System.currentTimeMillis(); // simple unique ID
             Patient patient = new Patient(name, id, username, password);
+            FileHandler.savePatient(patient);
 
             JOptionPane.showMessageDialog(frame, "Registration Successful!");
 
             System.out.println("Patient Registered: " + patient.getName());
+            //Move to booking page
+            new BookingPage(patient);
+            frame.dispose();
         });
 
         frame.setVisible(true);
