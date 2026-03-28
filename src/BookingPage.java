@@ -63,12 +63,18 @@ public class BookingPage {
                     throw new Exception("Date & Time cannot be empty!");
                 }
 
+                int index = doctorBox.getSelectedIndex();
+
                 Doctor doctor;
 
-                if (doctorName.contains("Smith")) {
-                    doctor = new Doctor("Dr. Smith", "D101", "Cardiology");
+                if (index == 0) {
+                doctor = new Doctor("Dr. Susmita Roy", "D101", "Cardiology");
+
+                } else if (index == 1) {
+                  doctor = new Doctor("Dr. Niharika Banerjee", "D102", "Neurology");
+
                 } else {
-                    doctor = new Doctor("Dr. John", "D102", "Neurology");
+                  doctor = new Doctor("Dr. Sreyansh Das", "D103", "Child Specialist");
                 }
 
                 Appointment appointment;

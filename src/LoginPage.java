@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class LoginPage {
 
@@ -10,13 +11,11 @@ public class LoginPage {
 
     public LoginPage() {
 
-        // Create frame
-        frame = new JFrame("Login - Hospital System");
+        frame = new JFrame("Login Page");
         frame.setSize(400, 300);
+        frame.setLayout(new GridLayout(3, 2));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridLayout(4, 2));
 
-        // Create components
         JLabel userLabel = new JLabel("Username:");
         JLabel passLabel = new JLabel("Password:");
 
@@ -26,7 +25,6 @@ public class LoginPage {
         loginButton = new JButton("Login");
         registerButton = new JButton("Register");
 
-        // Add components to frame
         frame.add(userLabel);
         frame.add(usernameField);
         frame.add(passLabel);
@@ -34,13 +32,58 @@ public class LoginPage {
         frame.add(loginButton);
         frame.add(registerButton);
 
+        // LOGIN LOGIC (Day 8)
+        loginButton.addActionListener(e -> {
+
+            try {
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+
+                // Validation
+                if (username.isEmpty() || password.isEmpty()) {
+                    throw new Exception("Fields cannot be empty!");
+                }
+
+                // Load patients from file
+                ArrayList<Patient> patients = FileHandler.loadPatients();
+
+                boolean found = false;
+                Patient loggedInPatient = null;
+
+                // Check credentials
+                for (Patient p : patients) {
+                     System.out.println("Entered: " + username + " " + password);
+                     System.out.println("File: " + p.getUsername() + " " + p.getPassword());
+                    if (p.getUsername().equals(username) && p.getPassword().equals(password)) {
+                        found = true;
+                        loggedInPatient = p;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    JOptionPane.showMessageDialog(frame, "Login Successful!");
+
+                    // Go to Booking Page
+                    new BookingPage(loggedInPatient);
+                    frame.dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Invalid Username or Password!");
+                }
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame, ex.getMessage());
+            }
+        });
+
+        // Register Button → Open Register Page
         registerButton.addActionListener(e -> {
-    frame.dispose(); // close login
-    new RegisterPage();
-     });
+            new RegisterPage();
+            frame.dispose();
+        });
 
-        // Make visible
+
         frame.setVisible(true);
-
     }
 }
