@@ -8,6 +8,7 @@ public class BookingPage {
     JComboBox<String> doctorBox, typeBox;
     JTextField dateField;
     JButton bookButton;
+    JButton viewButton;
 
     Patient patient;
 
@@ -20,7 +21,7 @@ public class BookingPage {
 
         frame = new JFrame("Book Appointment");
         frame.setSize(400, 300);
-        frame.setLayout(new GridLayout(4, 2));
+        frame.setLayout(new GridLayout(5, 2));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel doctorLabel = new JLabel("Select Doctor:");
@@ -49,6 +50,13 @@ public class BookingPage {
         frame.add(dateLabel);
         frame.add(dateField);
         frame.add(bookButton);
+
+        viewButton = new JButton("View Appointments");
+        frame.add(viewButton);
+
+        viewButton.addActionListener(e -> {
+        new ViewAppointmentsPage(patient);
+        });
 
         //Button Action
         bookButton.addActionListener(e -> {

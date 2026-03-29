@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class FileHandler {
 
-    // Save Patient Data
+    // Save Patient
     public static void savePatient(Patient patient) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("patients.txt", true))) {
@@ -20,7 +20,7 @@ public class FileHandler {
         }
     }
 
-    // Save Appointment Data
+    // Save Appointment
     public static void saveAppointment(Appointment appointment) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("appointments.txt", true))) {
@@ -37,35 +37,67 @@ public class FileHandler {
         }
     }
 
-    // Load Patient Data
+    // Load Patients
     public static ArrayList<Patient> loadPatients() {
 
-    ArrayList<Patient> patients = new ArrayList<>();
+        ArrayList<Patient> patients = new ArrayList<>();
 
-    try (BufferedReader reader = new BufferedReader(new FileReader("patients.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("patients.txt"))) {
 
-        String line;
+            String line;
 
-        while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
 
-            if (line.trim().isEmpty()) continue;
+                if (line.trim().isEmpty()) continue;
 
-            String[] parts = line.split(",");
+                String[] parts = line.split(",");
 
-            if (parts.length < 3) continue;
+                if (parts.length < 3) continue;
 
-            String name = parts[0].trim();
-            String username = parts[1].trim();
-            String password = parts[2].trim();
+                String name = parts[0].trim();
+                String username = parts[1].trim();
+                String password = parts[2].trim();
 
-            Patient patient = new Patient(name, username, password);
-            patients.add(patient);
+                Patient patient = new Patient(name, username, password);
+                patients.add(patient);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
         }
 
-    } catch (IOException e) {
-        System.out.println("Error reading file: " + e.getMessage());
+        return patients;
     }
 
-    return patients;
+    // Load Appointments 
+    public static ArrayList<String> loadAppointments(String username) {
+
+        ArrayList<String> list = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("appointments.txt"))) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                if (line.trim().isEmpty()) continue;
+
+                String[] parts = line.split(",");
+
+                if (parts.length < 3) continue;
+
+                String name = parts[0].trim();
+
+                // Match only logged-in user
+                if (name.equalsIgnoreCase(username)) {
+                    list.add(line);
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading appointments: " + e.getMessage());
+        }
+
+        return list;
     }
 }
